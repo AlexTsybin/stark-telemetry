@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Stark Test"
+rootProject.name = "Stark Telemetry"
 include(":app")
