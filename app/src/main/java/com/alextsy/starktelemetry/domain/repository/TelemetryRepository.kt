@@ -15,5 +15,4 @@ sealed interface TelemetryLoadResult {
 enum class TelemetryFailure {
     SOURCE_UNAVAILABLE,
     INVALID_DATA,
-    UNKNOWN,
 }

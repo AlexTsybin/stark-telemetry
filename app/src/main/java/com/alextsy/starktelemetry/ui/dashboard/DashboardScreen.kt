@@ -20,11 +20,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BatteryFull
 import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Inbox
 import androidx.compose.material.icons.outlined.Refresh
@@ -182,54 +179,46 @@ private fun DashboardContent(telemetry: DashboardUiModel) {
                 DiagnosticsPanel(diagnostics = telemetry.diagnostics)
             }
 
-            items(
-                items = listOf(
-                    DashboardCard.Battery(telemetry),
-                    DashboardCard.Session(telemetry),
-                    DashboardCard.Motor(telemetry),
-                    DashboardCard.RideSettings(telemetry),
-                ),
-                key = { it.title },
-            ) { card ->
-                when (card) {
-                    is DashboardCard.Battery -> BatteryCard(card.telemetry.battery)
-                    is DashboardCard.Session -> MetricCard(
-                        icon = Icons.Outlined.Speed,
-                        title = card.title,
-                        primaryValue = card.telemetry.session.distance,
-                        primaryLabel = "DISTANCE",
-                        metrics = listOf(
-                            "DURATION" to card.telemetry.session.duration,
-                            "MAX SPEED" to card.telemetry.session.maximumSpeed,
-                        ),
-                    )
-                    is DashboardCard.Motor -> MetricCard(
-                        icon = Icons.Outlined.Bolt,
-                        title = card.title,
-                        primaryValue = card.telemetry.motor.power,
-                        primaryLabel = "POWER",
-                        metrics = listOf("TEMPERATURE" to card.telemetry.motor.temperature),
-                    )
-                    is DashboardCard.RideSettings -> MetricCard(
-                        icon = Icons.Outlined.Tune,
-                        title = card.title,
-                        primaryValue = card.telemetry.rideSettings.powerMap,
-                        primaryLabel = "POWER MAP",
-                        metrics = listOf(
-                            "MAX POWER" to card.telemetry.rideSettings.maximumPower,
-                            "ENGINE BRAKING" to card.telemetry.rideSettings.engineBraking,
-                            "REGEN" to card.telemetry.rideSettings.regeneration,
-                        ),
-                    )
-                }
+            item {
+                BatteryCard(telemetry.battery)
+            }
+
+            item {
+                MetricCard(
+                    icon = Icons.Outlined.Speed,
+                    title = "SESSION",
+                    primaryValue = telemetry.session.distance,
+                    primaryLabel = "DISTANCE",
+                    metrics = listOf(
+                        "DURATION" to telemetry.session.duration,
+                        "MAX SPEED" to telemetry.session.maximumSpeed,
+                    ),
+                )
+            }
+
+            item {
+                MetricCard(
+                    icon = Icons.Outlined.Bolt,
+                    title = "MOTOR",
+                    primaryValue = telemetry.motor.power,
+                    primaryLabel = "POWER",
+                    metrics = listOf("TEMPERATURE" to telemetry.motor.temperature),
+                )
+            }
+
+            item {
+                MetricCard(
+                    icon = Icons.Outlined.Tune,
+                    title = "RIDE SETTINGS",
+                    primaryValue = telemetry.rideSettings.powerMap,
+                    primaryLabel = "POWER MAP",
+                    metrics = listOf(
+                        "MAX POWER" to telemetry.rideSettings.maximumPower,
+                        "ENGINE BRAKING" to telemetry.rideSettings.engineBraking,
+                        "REGEN" to telemetry.rideSettings.regeneration,
+                    ),
+                )
             }
         }
     }
-}
-
-private sealed class DashboardCard(val title: String) {
-    class Battery(val telemetry: DashboardUiModel) : DashboardCard("BATTERY")
-    class Session(val telemetry: DashboardUiModel) : DashboardCard("SESSION")
-    class Motor(val telemetry: DashboardUiModel) : DashboardCard("MOTOR")
-    class RideSettings(val telemetry: DashboardUiModel) : DashboardCard("RIDE SETTINGS")
 }

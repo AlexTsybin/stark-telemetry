@@ -40,11 +40,10 @@ data class RideSessionUiModel(
 
 data class DiagnosticsUiModel(
     val warnings: List<WarningUiModel>,
-    val faultCodes: List<String>,
+    val faultCount: Int,
 )
 
 data class WarningUiModel(
-    val code: String,
     val message: String,
     val severity: WarningSeverityUi,
 )

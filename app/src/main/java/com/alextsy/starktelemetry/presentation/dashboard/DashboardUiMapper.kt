@@ -38,12 +38,11 @@ class DashboardUiMapper @Inject constructor() {
             diagnostics = DiagnosticsUiModel(
                 warnings = diagnostics.warnings.map { warning ->
                     WarningUiModel(
-                        code = warning.code,
                         message = warning.message,
                         severity = warning.severity.toUiSeverity(),
                     )
                 },
-                faultCodes = diagnostics.faultCodes,
+                faultCount = diagnostics.faultCodes.size,
             ),
         )
     }

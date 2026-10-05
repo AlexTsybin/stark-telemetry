@@ -2,19 +2,19 @@
 
 ## Hilt for production dependency injection
 
-Hilt makes the real object graph explicit and conventional for a production Android codebase: application, Activity, ViewModel, repository binding, asset source, JSON configuration, and qualified IO dispatcher. Tests avoid Hilt infrastructure and construct targets directly with fakes, which keeps them fast and focused.
+Hilt keeps production wiring explicit for the application, ViewModel, repository, data source, JSON configuration, and IO dispatcher. Tests construct the same classes directly with fakes.
 
 ## Pragmatic Clean Architecture in one module
 
-The assessment is too small to justify several Gradle modules, but benefits from clear dependency boundaries. Packages separate `data`, `domain`, `presentation`, `di`, and `ui`. The domain layer is Android-independent, and data DTOs are mapped before crossing the repository boundary. This preserves the useful part of Clean Architecture without build and navigation overhead.
+The assessment is too small for several Gradle modules. Packages still separate `data`, `domain`, `presentation`, `di`, and `ui`; DTOs and Android APIs do not cross into the domain model.
 
 ## MVI presentation contract
 
-`DashboardViewModel` exposes a single immutable state stream with Loading, Content, Empty, and Error variants. The UI sends `RetryClicked`; the ViewModel performs the load and reduces the result to a new state. There is no effects channel because this screen has no one-off event, and no reducer dependency because the transition surface is intentionally small.
+`DashboardViewModel` exposes one immutable state stream with Loading, Content, Empty, and Error. The only intent is `RetryClicked`; there is no effects channel or reducer dependency.
 
 ## One use case with real responsibility
 
-`LoadTelemetrySnapshotUseCase` is not a pass-through. It enforces domain invariants for percentages and non-negative measurements before data reaches presentation. This demonstrates the production pattern while avoiding a use case per trivial field.
+`LoadTelemetrySnapshotUseCase` validates percentages and non-negative measurements before data reaches presentation. No use cases are added for trivial field access.
 
 ## Single snapshot JSON contract
 

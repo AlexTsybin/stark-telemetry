@@ -53,7 +53,6 @@ class DashboardViewModel @Inject constructor(
     private fun TelemetryFailure.message(): String = when (this) {
         TelemetryFailure.SOURCE_UNAVAILABLE -> "Telemetry snapshot is unavailable."
         TelemetryFailure.INVALID_DATA -> "Telemetry data could not be read."
-        TelemetryFailure.UNKNOWN -> UNKNOWN_ERROR_MESSAGE
     }
 
     private companion object {

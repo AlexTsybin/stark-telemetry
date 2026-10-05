@@ -25,12 +25,11 @@ private val previewTelemetry = DashboardUiModel(
     diagnostics = DiagnosticsUiModel(
         warnings = listOf(
             WarningUiModel(
-                code = "W_MOT_TEMP_HIGH",
                 message = "Motor temperature elevated",
                 severity = WarningSeverityUi.WARNING,
             ),
         ),
-        faultCodes = emptyList(),
+        faultCount = 0,
     ),
 )
 
@@ -49,7 +48,7 @@ private fun HealthyContentPreview() {
         DashboardScreen(
             DashboardUiState.Content(
                 previewTelemetry.copy(
-                    diagnostics = DiagnosticsUiModel(emptyList(), emptyList()),
+                    diagnostics = DiagnosticsUiModel(emptyList(), 0),
                 ),
             ),
             onIntent = {},

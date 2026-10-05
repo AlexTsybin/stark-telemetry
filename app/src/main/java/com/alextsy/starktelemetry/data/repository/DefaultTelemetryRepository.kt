@@ -9,7 +9,6 @@ import com.alextsy.starktelemetry.domain.repository.TelemetryRepository
 import java.io.IOException
 import java.time.DateTimeException
 import javax.inject.Inject
-import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
 
 class DefaultTelemetryRepository @Inject constructor(
@@ -21,16 +20,12 @@ class DefaultTelemetryRepository @Inject constructor(
             val dto = parser.parse(dataSource.readSnapshot())
                 ?: return TelemetryLoadResult.Empty
             TelemetryLoadResult.Success(dto.toDomain())
-        } catch (exception: CancellationException) {
-            throw exception
         } catch (exception: IOException) {
             TelemetryLoadResult.Failure(TelemetryFailure.SOURCE_UNAVAILABLE)
         } catch (exception: SerializationException) {
             TelemetryLoadResult.Failure(TelemetryFailure.INVALID_DATA)
         } catch (exception: DateTimeException) {
             TelemetryLoadResult.Failure(TelemetryFailure.INVALID_DATA)
-        } catch (exception: Exception) {
-            TelemetryLoadResult.Failure(TelemetryFailure.UNKNOWN)
         }
     }
 }

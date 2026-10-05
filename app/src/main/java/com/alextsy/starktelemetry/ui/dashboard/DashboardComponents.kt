@@ -196,7 +196,7 @@ fun DiagnosticsPanel(
     diagnostics: DiagnosticsUiModel,
     modifier: Modifier = Modifier,
 ) {
-    val hasIssues = diagnostics.warnings.isNotEmpty() || diagnostics.faultCodes.isNotEmpty()
+    val hasIssues = diagnostics.warnings.isNotEmpty() || diagnostics.faultCount > 0
     val container = if (hasIssues) Color(0xFFFFF5E5) else Color(0xFFEAF7F1)
     val accent = if (hasIssues) WarningAmber else HealthyGreen
 
@@ -244,12 +244,12 @@ fun DiagnosticsPanel(
                         )
                     }
                 }
-                if (diagnostics.faultCodes.isNotEmpty()) {
+                if (diagnostics.faultCount > 0) {
                     Text(
-                        text = if (diagnostics.faultCodes.size == 1) {
+                        text = if (diagnostics.faultCount == 1) {
                             "Bike fault detected"
                         } else {
-                            "${diagnostics.faultCodes.size} bike faults detected"
+                            "${diagnostics.faultCount} bike faults detected"
                         },
                         modifier = Modifier.padding(top = 8.dp),
                         style = MaterialTheme.typography.bodyMedium,

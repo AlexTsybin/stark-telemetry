@@ -44,12 +44,6 @@ class DashboardScreenTest {
             composeRule.onAllNodesWithText("SNAPSHOT", substring = true)
                 .fetchSemanticsNodes().size,
         )
-        assertEquals(
-            0,
-            composeRule.onAllNodesWithText("W_MOT_TEMP_HIGH")
-                .fetchSemanticsNodes().size,
-        )
-
         composeRule.onNodeWithTag("dashboard").performScrollToIndex(2)
         assertDisplayed("73%", "38 km")
 
@@ -97,12 +91,11 @@ class DashboardScreenTest {
             diagnostics = DiagnosticsUiModel(
                 warnings = listOf(
                     WarningUiModel(
-                        code = "W_MOT_TEMP_HIGH",
                         message = "Motor temperature elevated",
                         severity = WarningSeverityUi.WARNING,
                     ),
                 ),
-                faultCodes = emptyList(),
+                faultCount = 0,
             ),
         )
     }

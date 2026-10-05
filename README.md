@@ -70,4 +70,4 @@ The implementation was verified on a Pixel 6 AVD running API 36. Unit coverage i
 - The assessment screenshots inform the cockpit hierarchy and restrained red accent, but are not copied as assets.
 - Sliders, save actions, charts, Bluetooth, Modes, Trails, Maps, history, and a live backend are intentionally outside the supplied contract.
 
-More rationale is in [docs/DECISIONS.md](docs/DECISIONS.md), and acceptance coverage is in [docs/TEST_PLAN.md](docs/TEST_PLAN.md).
+More rationale is in [docs/DECISIONS.md](docs/DECISIONS.md).
