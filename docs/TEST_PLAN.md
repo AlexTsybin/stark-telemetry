@@ -8,7 +8,7 @@
 | Reject invalid roots and fields | Blank, malformed, array, missing-field, wrong-type tests | Error/Empty previews |
 | Keep domain values valid | Use-case boundary tests for every validated measurement | Content values reviewed |
 | Model MVI transitions | Loading to Content/Empty/Error and retry tests | Loading/Error previews |
-| Display the complete payload | Compose happy-path test asserts representative data from every section | Pixel 6 screenshot and scrolling review |
+| Display the complete rider-facing payload | Compose happy-path test asserts representative data from every section and verifies technical labels are absent | Pixel 6 screenshot and scrolling review |
 | Retry from an error | Compose click test verifies `RetryClicked` | Error preview |
 | Remain landscape | Manifest configuration | Pixel 6 forced to portrait; Activity remained `SCREEN_ORIENTATION_LANDSCAPE` / `ROTATION_90` |
 | Stay useful offline | Image state is independent of dashboard state | Empty URL preview renders hero fallback with telemetry intact |
@@ -47,7 +47,7 @@
 
 ## Compose and device scenarios
 
-- Happy path asserts `73%`, `38 km`, `52.4 hp`, `24.7 km`, `94.1 km/h`, `ENDURO`, firmware, and the warning.
+- Happy path asserts `73%`, `38 km`, `52.4 hp`, `24.7 km`, `94.1 km/h`, `ENDURO`, firmware, and the warning. It also verifies that `SNAPSHOT` and the raw warning code are not displayed.
 - Error Retry dispatches exactly `DashboardIntent.RetryClicked`.
 - Content, healthy Content, Loading, Empty, and Error have dedicated Compose previews.
 - Manual Pixel 6 API 36 review checks contrast, spacing, scrolling, hero image, fallback behaviour, and absence of overlaps.

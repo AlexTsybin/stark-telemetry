@@ -28,7 +28,9 @@ The phone is physically mounted horizontally, while jumps and falls can produce 
 
 ## Hybrid cockpit visual language
 
-The dark hero anchors bike identity and image; off-white telemetry surfaces maximize daylight legibility. Stark red is reserved for identity and emphasis, while amber communicates diagnostics. Warnings also include icon, message, and code, so meaning is not colour-only. Dynamic colour and system dark mode are intentionally disabled to keep the mounted cockpit predictable.
+The compact dark hero anchors bike identity and image without displacing primary telemetry; off-white telemetry surfaces maximize daylight legibility. Stark red is reserved for identity and emphasis, while amber communicates diagnostics. Warnings include an icon and human-readable message, so meaning is not colour-only. Raw warning and fault codes remain available to logging or a future service screen but are intentionally hidden from the rider-facing overview. Dynamic colour and system dark mode are disabled to keep the mounted UI predictable.
+
+The payload is treated as one frame of an eventually continuous telemetry stream, but the absence of current speed means this is not presented as an at-speed instrument cluster. It is a detailed current overview intended primarily for inspection while stationary. The first viewport prioritizes status and warnings; scrolling is retained rather than sacrificing type size or accessibility on shorter windows.
 
 ## Hero image is non-critical data
 

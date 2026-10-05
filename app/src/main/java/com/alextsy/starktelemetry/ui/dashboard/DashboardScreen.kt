@@ -66,7 +66,7 @@ fun DashboardScreen(
             DashboardUiState.Empty -> StateMessage(
                 icon = Icons.Outlined.Inbox,
                 title = "No telemetry available",
-                message = "The bike has not produced a telemetry snapshot yet.",
+                message = "The bike has not produced telemetry data yet.",
                 onRetry = { onIntent(DashboardIntent.RetryClicked) },
             )
             is DashboardUiState.Error -> StateMessage(

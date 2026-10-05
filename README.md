@@ -1,17 +1,18 @@
 # Stark Telemetry
 
-A focused Android dashboard for a single Stark VARG telemetry snapshot. The app reads the assessment payload from `assets`, validates it in the domain layer, and presents a high-contrast cockpit designed for a phone mounted horizontally on an off-road motorcycle.
+A focused Android dashboard for a single Stark VARG telemetry snapshot. The app reads the assessment payload from `assets`, validates it in the domain layer, and presents a high-contrast telemetry overview designed for a phone mounted horizontally on an off-road motorcycle.
 
 ![Stark Telemetry dashboard](docs/images/stark-telemetry.png)
 
 ## What is implemented
 
-- Every field from the supplied snapshot: bike identity, firmware, timestamp, battery, motor, session, ride settings, warnings, and fault codes.
+- Every rider-facing section from the supplied snapshot: bike identity, firmware, timestamp, battery, motor, session, ride settings, warnings, and fault presence.
 - Explicit Loading, Content, Empty, and Error states with retry handling.
 - Fixed landscape orientation for the mounted-device use case.
 - Responsive 4/2/1-column Compose grid for large, medium, and narrow windows.
 - Remote bike image loading through Coil with a stable offline fallback; image failure never changes telemetry state.
 - Accessible 48dp retry target, semantic test tags, safe drawing insets, high contrast, and warning communication that does not depend on colour alone.
+- A compact first viewport prioritizes bike status and active warnings while the scrollable layout preserves readable detail on shorter screens.
 
 ## Architecture
 
@@ -65,7 +66,7 @@ The implementation was verified on a Pixel 6 AVD running API 36. Unit coverage i
 - The JSON contract represents exactly one current snapshot, not a history endpoint.
 - Blank input is Empty; malformed input, arrays, `null`, missing required fields, and invalid types are InvalidData. Unknown extra fields are tolerated.
 - Percentage values must be within `0..100`; time, distance, range, speed, and power must be non-negative. Temperature limits are not invented.
-- Empty warnings and fault codes represent a healthy Content state.
+- Empty warnings and fault codes represent a healthy Content state. Diagnostic codes stay in the model for logging/service workflows but are not exposed as rider-facing copy.
 - The assessment screenshots inform the cockpit hierarchy and restrained red accent, but are not copied as assets.
 - Sliders, save actions, charts, Bluetooth, Modes, Trails, Maps, history, and a live backend are intentionally outside the supplied contract.
 

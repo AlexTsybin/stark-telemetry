@@ -62,7 +62,7 @@ fun BikeHero(
     compact: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val heroHeight = if (compact) 220.dp else 140.dp
+    val heroHeight = if (compact) 200.dp else 104.dp
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -76,7 +76,7 @@ fun BikeHero(
                     model = model,
                     variantAndFirmware = variantAndFirmware,
                     updatedAt = updatedAt,
-                    modifier = Modifier.padding(20.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                 )
                 HeroImage(
                     model = model,
@@ -95,7 +95,7 @@ fun BikeHero(
                     modifier = Modifier
                         .weight(0.46f)
                         .fillMaxHeight()
-                        .padding(20.dp),
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
                 )
                 HeroImage(
                     model = model,
@@ -125,7 +125,7 @@ private fun HeroCopy(
             style = MaterialTheme.typography.labelMedium,
             color = StarkRed,
         )
-        Spacer(Modifier.height(6.dp))
+        Spacer(Modifier.height(2.dp))
         Text(
             text = model,
             style = MaterialTheme.typography.headlineSmall,
@@ -133,15 +133,15 @@ private fun HeroCopy(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.height(1.dp))
         Text(
             text = variantAndFirmware,
             style = MaterialTheme.typography.labelMedium,
             color = Color(0xFFCBD5E1),
         )
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(3.dp))
         Text(
-            text = "SNAPSHOT · $updatedAt",
+            text = updatedAt,
             style = MaterialTheme.typography.labelMedium,
             color = Color(0xFF94A3B8),
             maxLines = 1,
@@ -209,7 +209,7 @@ fun DiagnosticsPanel(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = accent)
@@ -221,7 +221,7 @@ fun DiagnosticsPanel(
                 )
             }
         } else {
-            Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+            Column(Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) {
                 diagnostics.warnings.forEachIndexed { index, warning ->
                     if (index > 0) {
                         HorizontalDivider(
@@ -236,25 +236,24 @@ fun DiagnosticsPanel(
                             tint = warning.severity.color(),
                         )
                         Spacer(Modifier.width(10.dp))
-                        Column(Modifier.weight(1f)) {
-                            Text(
-                                text = warning.message,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.SemiBold,
-                            )
-                            Text(
-                                text = warning.code,
-                                style = MaterialTheme.typography.labelMedium,
-                                color = TelemetryMuted,
-                            )
-                        }
+                        Text(
+                            text = warning.message,
+                            modifier = Modifier.weight(1f),
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                        )
                     }
                 }
-                diagnostics.faultCodes.forEach { code ->
+                if (diagnostics.faultCodes.isNotEmpty()) {
                     Text(
-                        text = "FAULT · $code",
+                        text = if (diagnostics.faultCodes.size == 1) {
+                            "Bike fault detected"
+                        } else {
+                            "${diagnostics.faultCodes.size} bike faults detected"
+                        },
                         modifier = Modifier.padding(top = 8.dp),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
                         color = StarkRed,
                     )
                 }

@@ -2,6 +2,7 @@ package com.alextsy.starktelemetry.ui.dashboard
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -38,6 +39,16 @@ class DashboardScreenTest {
         }
 
         assertDisplayed("ALPHA · FW 3.4.1", "Motor temperature elevated")
+        assertEquals(
+            0,
+            composeRule.onAllNodesWithText("SNAPSHOT", substring = true)
+                .fetchSemanticsNodes().size,
+        )
+        assertEquals(
+            0,
+            composeRule.onAllNodesWithText("W_MOT_TEMP_HIGH")
+                .fetchSemanticsNodes().size,
+        )
 
         composeRule.onNodeWithTag("dashboard").performScrollToIndex(2)
         assertDisplayed("73%", "38 km")
