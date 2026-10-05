@@ -150,9 +150,7 @@ private fun StateMessage(
 @Composable
 private fun DashboardContent(telemetry: DashboardUiModel) {
     BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxSize()
-            .testTag("dashboard"),
+        modifier = Modifier.fillMaxSize(),
     ) {
         val columnCount = when {
             maxWidth >= 840.dp -> 4
@@ -163,7 +161,9 @@ private fun DashboardContent(telemetry: DashboardUiModel) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(columnCount),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("dashboard"),
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
