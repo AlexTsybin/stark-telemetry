@@ -3,6 +3,7 @@ package com.alextsy.starktelemetry.ui.dashboard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.alextsy.starktelemetry.presentation.dashboard.BatteryUiModel
+import com.alextsy.starktelemetry.presentation.dashboard.DashboardError
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardUiModel
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardUiState
 import com.alextsy.starktelemetry.presentation.dashboard.DiagnosticsUiModel
@@ -77,7 +78,7 @@ private fun EmptyPreview() {
 private fun ErrorPreview() {
     StarkTelemetryTheme {
         DashboardScreen(
-            DashboardUiState.Error("Telemetry data could not be read."),
+            DashboardUiState.Error(DashboardError.INVALID_DATA),
             onIntent = {},
         )
     }

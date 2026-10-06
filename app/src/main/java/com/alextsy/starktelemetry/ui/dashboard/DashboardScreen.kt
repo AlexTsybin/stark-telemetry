@@ -37,9 +37,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.alextsy.starktelemetry.R
+import com.alextsy.starktelemetry.presentation.dashboard.DashboardError
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardIntent
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardUiModel
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardUiState
@@ -69,7 +72,7 @@ fun DashboardScreen(
             is DashboardUiState.Error -> StateMessage(
                 icon = Icons.Outlined.ErrorOutline,
                 title = "Unable to load telemetry",
-                message = state.message,
+                message = state.error.message(),
                 onRetry = { onIntent(DashboardIntent.RetryClicked) },
             )
             is DashboardUiState.Content -> DashboardContent(state.telemetry)
@@ -175,8 +178,10 @@ private fun DashboardContent(telemetry: DashboardUiModel) {
                 )
             }
 
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                DiagnosticsPanel(diagnostics = telemetry.diagnostics)
+            if (telemetry.diagnostics.warnings.isNotEmpty() || telemetry.diagnostics.faultCount > 0) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    DiagnosticsPanel(diagnostics = telemetry.diagnostics)
+                }
             }
 
             item {
@@ -221,4 +226,11 @@ private fun DashboardContent(telemetry: DashboardUiModel) {
             }
         }
     }
+}
+
+@Composable
+private fun DashboardError.message(): String = when (this) {
+    DashboardError.SOURCE_UNAVAILABLE -> stringResource(R.string.telemetry_error_source_unavailable)
+    DashboardError.INVALID_DATA -> stringResource(R.string.telemetry_error_invalid_data)
+    DashboardError.UNKNOWN -> stringResource(R.string.telemetry_error_unknown)
 }

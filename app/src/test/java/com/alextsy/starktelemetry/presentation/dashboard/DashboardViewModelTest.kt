@@ -51,7 +51,7 @@ class DashboardViewModelTest {
         advanceUntilIdle()
 
         assertEquals(
-            DashboardUiState.Error("Telemetry data could not be read."),
+            DashboardUiState.Error(DashboardError.INVALID_DATA),
             viewModel.state.value,
         )
     }
@@ -68,7 +68,7 @@ class DashboardViewModelTest {
         advanceUntilIdle()
         assertTrue(viewModel.state.value is DashboardUiState.Error)
 
-        viewModel.accept(DashboardIntent.RetryClicked)
+        viewModel.onIntent(DashboardIntent.RetryClicked)
         assertEquals(DashboardUiState.Loading, viewModel.state.value)
         advanceUntilIdle()
 

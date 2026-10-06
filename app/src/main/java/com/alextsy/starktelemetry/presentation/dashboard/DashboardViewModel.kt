@@ -25,7 +25,7 @@ class DashboardViewModel @Inject constructor(
         loadTelemetry()
     }
 
-    fun accept(intent: DashboardIntent) {
+    fun onIntent(intent: DashboardIntent) {
         when (intent) {
             DashboardIntent.RetryClicked -> loadTelemetry()
         }
@@ -39,7 +39,7 @@ class DashboardViewModel @Inject constructor(
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: Exception) {
-                DashboardUiState.Error(UNKNOWN_ERROR_MESSAGE)
+                DashboardUiState.Error(DashboardError.UNKNOWN)
             }
         }
     }
@@ -47,15 +47,11 @@ class DashboardViewModel @Inject constructor(
     private fun TelemetryLoadResult.toUiState(): DashboardUiState = when (this) {
         is TelemetryLoadResult.Success -> DashboardUiState.Content(uiMapper.map(snapshot))
         TelemetryLoadResult.Empty -> DashboardUiState.Empty
-        is TelemetryLoadResult.Failure -> DashboardUiState.Error(reason.message())
+        is TelemetryLoadResult.Failure -> DashboardUiState.Error(reason.toDashboardError())
     }
 
-    private fun TelemetryFailure.message(): String = when (this) {
-        TelemetryFailure.SOURCE_UNAVAILABLE -> "Telemetry snapshot is unavailable."
-        TelemetryFailure.INVALID_DATA -> "Telemetry data could not be read."
-    }
-
-    private companion object {
-        const val UNKNOWN_ERROR_MESSAGE = "Something went wrong while loading telemetry."
+    private fun TelemetryFailure.toDashboardError(): DashboardError = when (this) {
+        TelemetryFailure.SOURCE_UNAVAILABLE -> DashboardError.SOURCE_UNAVAILABLE
+        TelemetryFailure.INVALID_DATA -> DashboardError.INVALID_DATA
     }
 }

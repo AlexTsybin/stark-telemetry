@@ -11,6 +11,6 @@ fun DashboardRoute(viewModel: DashboardViewModel) {
 
     DashboardScreen(
         state = state,
-        onIntent = viewModel::accept,
+        onIntent = viewModel::onIntent,
     )
 }

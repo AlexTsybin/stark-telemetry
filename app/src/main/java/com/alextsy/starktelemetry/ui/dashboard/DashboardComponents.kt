@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BatteryFull
-import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -37,6 +36,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -46,7 +46,6 @@ import com.alextsy.starktelemetry.presentation.dashboard.BatteryUiModel
 import com.alextsy.starktelemetry.presentation.dashboard.DiagnosticsUiModel
 import com.alextsy.starktelemetry.presentation.dashboard.WarningSeverityUi
 import com.alextsy.starktelemetry.ui.theme.CockpitNavy
-import com.alextsy.starktelemetry.ui.theme.HealthyGreen
 import com.alextsy.starktelemetry.ui.theme.StarkRed
 import com.alextsy.starktelemetry.ui.theme.TelemetryCard
 import com.alextsy.starktelemetry.ui.theme.TelemetryDivider
@@ -196,67 +195,48 @@ fun DiagnosticsPanel(
     diagnostics: DiagnosticsUiModel,
     modifier: Modifier = Modifier,
 ) {
-    val hasIssues = diagnostics.warnings.isNotEmpty() || diagnostics.faultCount > 0
-    val container = if (hasIssues) Color(0xFFFFF5E5) else Color(0xFFEAF7F1)
-    val accent = if (hasIssues) WarningAmber else HealthyGreen
-
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("diagnostics"),
         shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(containerColor = container),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF5E5)),
     ) {
-        if (!hasIssues) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = accent)
-                Spacer(Modifier.width(10.dp))
-                Text(
-                    text = "NO ACTIVE WARNINGS",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = HealthyGreen,
-                )
-            }
-        } else {
-            Column(Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) {
-                diagnostics.warnings.forEachIndexed { index, warning ->
-                    if (index > 0) {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            color = TelemetryDivider,
-                        )
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Outlined.Warning,
-                            contentDescription = null,
-                            tint = warning.severity.color(),
-                        )
-                        Spacer(Modifier.width(10.dp))
-                        Text(
-                            text = warning.message,
-                            modifier = Modifier.weight(1f),
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold,
-                        )
-                    }
-                }
-                if (diagnostics.faultCount > 0) {
-                    Text(
-                        text = if (diagnostics.faultCount == 1) {
-                            "Bike fault detected"
-                        } else {
-                            "${diagnostics.faultCount} bike faults detected"
-                        },
-                        modifier = Modifier.padding(top = 8.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = StarkRed,
+        Column(Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) {
+            diagnostics.warnings.forEachIndexed { index, warning ->
+                if (index > 0) {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = TelemetryDivider,
                     )
                 }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Outlined.Warning,
+                        contentDescription = null,
+                        tint = warning.severity.color(),
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        text = warning.message,
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+            }
+            if (diagnostics.faultCount > 0) {
+                Text(
+                    text = if (diagnostics.faultCount == 1) {
+                        "Bike fault detected"
+                    } else {
+                        "${diagnostics.faultCount} bike faults detected"
+                    },
+                    modifier = Modifier.padding(top = 8.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = StarkRed,
+                )
             }
         }
     }

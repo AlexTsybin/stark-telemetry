@@ -2,12 +2,14 @@ package com.alextsy.starktelemetry.ui.dashboard
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import com.alextsy.starktelemetry.presentation.dashboard.BatteryUiModel
+import com.alextsy.starktelemetry.presentation.dashboard.DashboardError
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardIntent
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardUiModel
 import com.alextsy.starktelemetry.presentation.dashboard.DashboardUiState
@@ -63,7 +65,7 @@ class DashboardScreenTest {
         composeRule.setContent {
             StarkTelemetryTheme {
                 DashboardScreen(
-                    state = DashboardUiState.Error("Telemetry data could not be read."),
+                    state = DashboardUiState.Error(DashboardError.INVALID_DATA),
                     onIntent = intents::add,
                 )
             }
@@ -72,6 +74,25 @@ class DashboardScreenTest {
         composeRule.onNodeWithTag("retry").performClick()
 
         assertEquals(listOf(DashboardIntent.RetryClicked), intents)
+    }
+
+    @Test
+    fun content_withoutIssuesDoesNotDisplayDiagnostics() {
+        composeRule.setContent {
+            StarkTelemetryTheme {
+                DashboardScreen(
+                    state = DashboardUiState.Content(
+                        telemetry.copy(diagnostics = DiagnosticsUiModel(emptyList(), 0)),
+                    ),
+                    onIntent = {},
+                )
+            }
+        }
+
+        assertEquals(
+            0,
+            composeRule.onAllNodesWithTag("diagnostics").fetchSemanticsNodes().size,
+        )
     }
 
     private fun assertDisplayed(vararg values: String) {
