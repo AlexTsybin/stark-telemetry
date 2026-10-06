@@ -6,21 +6,16 @@
 
     <application
         android:name=".StarkTelemetryApplication"
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StarkTest">
+        android:theme="@style/Theme.StarkTelemetry">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.StarkTest"
-            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.StarkTelemetry"
             tools:ignore="DiscouragedApi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,6 +9,4 @@ val TelemetryCard = Color(0xFFFFFFFF)
 val TelemetryText = Color(0xFF101828)
 val TelemetryMuted = Color(0xFF667085)
 val WarningAmber = Color(0xFFF5B942)
-val HealthyGreen = Color(0xFF228B62)
 val TelemetryDivider = Color(0xFFE4E7EC)
-
