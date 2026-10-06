@@ -269,6 +269,7 @@ fun BatteryCard(
                 .clip(RoundedCornerShape(3.dp)),
             color = StarkRed,
             trackColor = TelemetryDivider,
+            drawStopIndicator = {},
         )
         Spacer(Modifier.height(12.dp))
         MetricRows(
